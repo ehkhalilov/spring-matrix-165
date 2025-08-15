@@ -3,6 +3,7 @@ package org.example.matrixspringapp165.service;
 import org.example.matrixspringapp165.dao.OrderEntity;
 import org.example.matrixspringapp165.dao.OrderRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -36,5 +37,14 @@ public class OrderService {
 
     public void deleteOrder(Long id) {
         orderRepository.deleteById(id);
+    }
+
+    public List<OrderEntity> getOrderByNumber(String orderNumber, Integer quantity) {
+        return orderRepository.getOrders(orderNumber, quantity);
+    }
+
+    @Transactional
+    public void changeOrderQuantity(Long orderId, Integer quantity) {
+        orderRepository.updateQuantity(quantity, orderId);
     }
 }
