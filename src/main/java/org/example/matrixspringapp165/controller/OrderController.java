@@ -2,6 +2,7 @@ package org.example.matrixspringapp165.controller;
 
 
 import org.example.matrixspringapp165.dao.OrderEntity;
+import org.example.matrixspringapp165.model.OrderDto;
 import org.example.matrixspringapp165.service.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,24 +29,24 @@ public class OrderController {
     }
 
     @GetMapping
-    public List<OrderEntity> getOrders() {
+    public List<OrderDto> getOrders() {
         return orderService.getOrders();
     }
 
     @GetMapping("/{orderId}")
-    public OrderEntity getOrder(@PathVariable Long orderId) {
+    public OrderDto getOrder(@PathVariable Long orderId) {
         return orderService.getOrder(orderId);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addOrder(@RequestBody OrderEntity orderEntity) {
-        orderService.addOrder(orderEntity);
+    public void addOrder(@RequestBody OrderDto orderDto) {
+        orderService.addOrder(orderDto);
     }
 
     @PutMapping("/{orderId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void editOrder(@RequestBody OrderEntity orderEntity, @PathVariable Long orderId) {
+    public void editOrder(@RequestBody OrderDto orderEntity, @PathVariable Long orderId) {
         orderService.editOrder(orderEntity, orderId);
     }
 
@@ -56,7 +57,7 @@ public class OrderController {
     }
 
     @GetMapping("/order-number/{orderNumber}")
-    public List<OrderEntity> getOrderByNumber(
+    public List<OrderDto> getOrderByNumber(
             @PathVariable String orderNumber,
             @RequestParam Integer quantity
     ) {
