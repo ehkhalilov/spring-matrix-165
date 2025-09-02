@@ -1,6 +1,8 @@
 package org.example.matrixspringapp165.dao;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -10,6 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.example.matrixspringapp165.enums.OrderStatus;
 
 import java.util.Objects;
 
@@ -27,6 +30,8 @@ public class OrderEntity {
     //    @Column(name = "order_number")
     private String orderNumber;
     private Integer quantity;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
 
     @Override
     public boolean equals(Object o) {
