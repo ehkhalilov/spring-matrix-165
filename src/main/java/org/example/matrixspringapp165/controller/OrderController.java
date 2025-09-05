@@ -1,6 +1,7 @@
 package org.example.matrixspringapp165.controller;
 
 
+import jakarta.validation.Valid;
 import org.example.matrixspringapp165.dao.OrderEntity;
 import org.example.matrixspringapp165.model.OrderDto;
 import org.example.matrixspringapp165.service.OrderService;
@@ -40,7 +41,7 @@ public class OrderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addOrder(@RequestBody OrderDto orderDto) {
+    public void addOrder(@RequestBody @Valid OrderDto orderDto) {
         orderService.addOrder(orderDto);
     }
 
