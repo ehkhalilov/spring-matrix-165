@@ -2,10 +2,14 @@ package org.example.matrixspringapp165.controller;
 
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 import org.example.matrixspringapp165.dao.OrderEntity;
 import org.example.matrixspringapp165.model.OrderDto;
 import org.example.matrixspringapp165.service.OrderService;
+import org.example.matrixspringapp165.validation.OnCreate;
+import org.example.matrixspringapp165.validation.OnUpdate;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -22,6 +26,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/orders")
+@Validated
 public class OrderController {
     private final OrderService orderService;
 
@@ -35,19 +40,19 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}")
-    public OrderDto getOrder(@PathVariable Long orderId) {
+    public OrderDto getOrder(@PathVariable @Max(100) Long orderId) {
         return orderService.getOrder(orderId);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addOrder(@RequestBody @Valid OrderDto orderDto) {
+    public void addOrder(@RequestBody @Validated(OnCreate.class) OrderDto orderDto) {
         orderService.addOrder(orderDto);
     }
 
     @PutMapping("/{orderId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void editOrder(@RequestBody OrderDto orderEntity, @PathVariable Long orderId) {
+    public void editOrder(@Validated(OnUpdate.class) @RequestBody OrderDto orderEntity, @PathVariable Long orderId) {
         orderService.editOrder(orderEntity, orderId);
     }
 

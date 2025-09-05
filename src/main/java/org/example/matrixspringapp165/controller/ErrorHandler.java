@@ -1,5 +1,6 @@
 package org.example.matrixspringapp165.controller;
 
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.example.matrixspringapp165.exception.NotFoundException;
 import org.example.matrixspringapp165.model.ExceptionDto;
@@ -38,5 +39,12 @@ public class ErrorHandler {
         return exception.getAllErrors()
                 .stream()
                 .map(e -> new ExceptionDto(e.getDefaultMessage())).toList();
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionDto handler(ConstraintViolationException exception) {
+        log.error("ActioLog.bad-request-violation-handler.error message {}", exception.getMessage());
+        return new ExceptionDto(exception.getMessage());
     }
 }

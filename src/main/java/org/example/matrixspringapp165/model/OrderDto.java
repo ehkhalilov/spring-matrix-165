@@ -13,6 +13,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.matrixspringapp165.enums.OrderStatus;
+import org.example.matrixspringapp165.validation.OnCreate;
+import org.example.matrixspringapp165.validation.OnUpdate;
 
 import java.time.LocalDate;
 
@@ -22,10 +24,10 @@ import java.time.LocalDate;
 @Builder
 public class OrderDto {
     private Long id;
-    @NotBlank
+    @NotBlank(groups = {OnCreate.class, OnUpdate.class})
     private String number;
-    @PositiveOrZero
-    @Min(5)
+    @PositiveOrZero(groups = OnCreate.class)
+    @Min(value = 5, groups = OnUpdate.class)
     @Max(10)
     private Integer quantity;
     private OrderStatus orderStatus;
