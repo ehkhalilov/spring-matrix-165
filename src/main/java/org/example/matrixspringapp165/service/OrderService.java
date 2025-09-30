@@ -3,15 +3,14 @@ package org.example.matrixspringapp165.service;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
-import org.example.matrixspringapp165.dao.OrderRepository;
+import org.example.matrixspringapp165.dao.repository.CustomerRepository;
+import org.example.matrixspringapp165.dao.repository.OrderRepository;
 import org.example.matrixspringapp165.exception.NotFoundException;
 import org.example.matrixspringapp165.mapper.OrderMapper;
 import org.example.matrixspringapp165.model.OrderDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.FileWriter;
 import java.util.List;
 
 @Service
@@ -20,6 +19,7 @@ import java.util.List;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final CustomerRepository customerRepository;
     private final OrderMapper orderMapper;
 
     public List<OrderDto> getOrders() {
@@ -44,8 +44,10 @@ public class OrderService {
     }
 
     @SneakyThrows
-    public void addOrder(OrderDto orderDto) {
+    public void addOrder(OrderDto orderDto, Long customerId) {
         var orderEntity = orderMapper.mapToEntity(orderDto);
+        var customerEntity = customerRepository.findById(customerId).orElseThrow();
+        orderEntity.setCustomer(customerEntity);
         orderRepository.save(orderEntity);
     }
 

@@ -1,6 +1,6 @@
 package org.example.matrixspringapp165.mapper;
 
-import org.example.matrixspringapp165.dao.OrderEntity;
+import org.example.matrixspringapp165.dao.entity.OrderEntity;
 import org.example.matrixspringapp165.model.OrderDto;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;

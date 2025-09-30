@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 import org.example.matrixspringapp165.enums.OrderStatus;
 import org.example.matrixspringapp165.validation.OnCreate;
 import org.example.matrixspringapp165.validation.OnUpdate;
+import org.example.matrixspringapp165.validation.ValidOrderStatus;
 
 import java.time.LocalDate;
 
@@ -30,9 +31,11 @@ public class OrderDto {
     @Min(value = 5, groups = OnUpdate.class)
     @Max(10)
     private Integer quantity;
+    @ValidOrderStatus(groups = OnCreate.class)
     private OrderStatus orderStatus;
     @FutureOrPresent
     private LocalDate createAt;
     @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@gmail.com", message = "INVALID_GMAIL_FORMAT")
     private String customerEmail;
+    private PaymentDto payment;
 }

@@ -1,9 +1,7 @@
 package org.example.matrixspringapp165.controller;
 
 
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
-import org.example.matrixspringapp165.dao.OrderEntity;
 import org.example.matrixspringapp165.model.OrderDto;
 import org.example.matrixspringapp165.service.OrderService;
 import org.example.matrixspringapp165.validation.OnCreate;
@@ -17,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -46,8 +45,11 @@ public class OrderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addOrder(@RequestBody @Validated(OnCreate.class) OrderDto orderDto) {
-        orderService.addOrder(orderDto);
+    public void addOrder(
+            @RequestHeader Long customerId,
+            @RequestBody @Validated(OnCreate.class) OrderDto orderDto
+    ) {
+        orderService.addOrder(orderDto, customerId);
     }
 
     @PutMapping("/{orderId}")
@@ -58,7 +60,9 @@ public class OrderController {
 
     @DeleteMapping("/{orderId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteOrder(@PathVariable Long orderId) {
+    public void deleteOrder(
+            @PathVariable Long orderId
+    ) {
         orderService.deleteOrder(orderId);
     }
 
