@@ -4,17 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Set;
+import java.math.BigDecimal;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class CustomerDto {
+public class ProductDto {
     private Long id;
     private String name;
-    private LocalDate birthDate;
-    private List<OrderDto> orders;
-    private Set<ProductDto> products;
+    private BigDecimal amount;
 }

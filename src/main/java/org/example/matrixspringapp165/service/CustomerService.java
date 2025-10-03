@@ -2,6 +2,7 @@ package org.example.matrixspringapp165.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.matrixspringapp165.dao.repository.CustomerRepository;
+import org.example.matrixspringapp165.dao.repository.ProductRepository;
 import org.example.matrixspringapp165.mapper.CustomerMapper;
 import org.example.matrixspringapp165.model.CustomerDto;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
+    private final ProductRepository productRepository;
 
     public CustomerDto getCustomer(Long id) {
         var entity = customerRepository.findById(id).orElseThrow();
@@ -35,5 +37,12 @@ public class CustomerService {
     public void deleteCustomer(Long customerId) {
         var customerEntity = customerRepository.findById(customerId).orElseThrow();
         customerRepository.delete(customerEntity);
+    }
+
+    public void addProductToCustomer(Long customerId, Long productId) {
+        var productEntity = productRepository.findById(productId).orElseThrow();
+        var customerEntity = customerRepository.findById(customerId).orElseThrow();
+        customerEntity.getProducts().add(productEntity);
+        customerRepository.save(customerEntity);
     }
 }

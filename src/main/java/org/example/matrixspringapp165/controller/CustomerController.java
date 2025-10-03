@@ -5,6 +5,7 @@ import org.example.matrixspringapp165.model.CustomerDto;
 import org.example.matrixspringapp165.service.CustomerService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,5 +41,12 @@ public class CustomerController {
             @PathVariable Long customerId
     ) {
         customerService.deleteCustomer(customerId);
+    }
+
+    @PatchMapping("/{customerId}/products/{productId}")
+    public void addProductToCustomer(
+            @PathVariable Long customerId, @PathVariable Long productId
+    ) {
+        customerService.addProductToCustomer(customerId, productId);
     }
 }
