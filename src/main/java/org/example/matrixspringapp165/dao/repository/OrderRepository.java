@@ -2,6 +2,7 @@ package org.example.matrixspringapp165.dao.repository;
 
 import org.example.matrixspringapp165.dao.entity.OrderEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 
-public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
+public interface OrderRepository extends JpaRepository<OrderEntity, Long>, JpaSpecificationExecutor<OrderEntity> {
 //    List<OrderEntity> findByOrderNumberOrQuantityOrderByIdDesc(String orderNumber, Integer quantity);
 
 

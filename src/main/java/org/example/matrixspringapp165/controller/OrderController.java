@@ -6,6 +6,11 @@ import org.example.matrixspringapp165.model.OrderDto;
 import org.example.matrixspringapp165.service.OrderService;
 import org.example.matrixspringapp165.validation.OnCreate;
 import org.example.matrixspringapp165.validation.OnUpdate;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,8 +39,11 @@ public class OrderController {
     }
 
     @GetMapping
-    public List<OrderDto> getOrders() {
-        return orderService.getOrders();
+    public Page<OrderDto> getOrders(@ParameterObject
+                                    @PageableDefault(page = 0, size = 5, sort = "orderNumber", direction = Sort.Direction.DESC)
+                                    Pageable pageable,
+                                    @RequestParam String orderNumber) {
+        return orderService.getOrders(pageable, orderNumber);
     }
 
     @GetMapping("/{orderId}")

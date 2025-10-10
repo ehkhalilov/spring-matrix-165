@@ -3,11 +3,16 @@ package org.example.matrixspringapp165.service;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.example.matrixspringapp165.dao.entity.OrderEntity;
 import org.example.matrixspringapp165.dao.repository.CustomerRepository;
 import org.example.matrixspringapp165.dao.repository.OrderRepository;
 import org.example.matrixspringapp165.exception.NotFoundException;
 import org.example.matrixspringapp165.mapper.OrderMapper;
 import org.example.matrixspringapp165.model.OrderDto;
+import org.example.matrixspringapp165.service.specification.OrderNumberSpecification;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,10 +27,11 @@ public class OrderService {
     private final CustomerRepository customerRepository;
     private final OrderMapper orderMapper;
 
-    public List<OrderDto> getOrders() {
+    public Page<OrderDto> getOrders(Pageable pageable, String orderNumber) {
         log.info("getOrders start");
-        var orderEntityList = orderRepository.findAll();
-        var orders = orderEntityList.stream().map(orderMapper::mapToDto).toList();
+        Specification<OrderEntity> specification = new OrderNumberSpecification(orderNumber);
+        var orderEntityList = orderRepository.findAll(specification, pageable);
+        var orders = orderEntityList.map(orderMapper::mapToDto);
         log.info("getOrders end");
         return orders;
     }
