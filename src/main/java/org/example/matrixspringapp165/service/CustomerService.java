@@ -5,7 +5,9 @@ import org.example.matrixspringapp165.dao.repository.CustomerRepository;
 import org.example.matrixspringapp165.dao.repository.ProductRepository;
 import org.example.matrixspringapp165.mapper.CustomerMapper;
 import org.example.matrixspringapp165.model.CustomerDto;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,15 +36,18 @@ public class CustomerService {
         customerRepository.save(customerEntity);
     }
 
+    @Async
     public void deleteCustomer(Long customerId) {
         var customerEntity = customerRepository.findById(customerId).orElseThrow();
         customerRepository.delete(customerEntity);
     }
 
+    @Transactional
     public void addProductToCustomer(Long customerId, Long productId) {
         var productEntity = productRepository.findById(productId).orElseThrow();
         var customerEntity = customerRepository.findById(customerId).orElseThrow();
         customerEntity.getProducts().add(productEntity);
+        customerRepository.deleteById(1L);
         customerRepository.save(customerEntity);
     }
 }
