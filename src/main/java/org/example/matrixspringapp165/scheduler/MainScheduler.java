@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Component
 public class MainScheduler {
 
-    @Scheduled(cron = "")
+    //    @Scheduled(cron = "")
     public void test() {
         System.out.println("Current date and time" + LocalDateTime.now());
     }
