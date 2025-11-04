@@ -3,6 +3,7 @@ package org.example.matrixspringapp165.service;
 import lombok.RequiredArgsConstructor;
 import org.example.matrixspringapp165.dao.repository.CustomerRepository;
 import org.example.matrixspringapp165.dao.repository.ProductRepository;
+import org.example.matrixspringapp165.exception.NotFoundException;
 import org.example.matrixspringapp165.mapper.CustomerMapper;
 import org.example.matrixspringapp165.model.CustomerDto;
 import org.springframework.scheduling.annotation.Async;
@@ -18,7 +19,10 @@ public class CustomerService {
     private final ProductRepository productRepository;
 
     public CustomerDto getCustomer(Long id) {
-        var entity = customerRepository.findById(id).orElseThrow();
+        var entity = customerRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("CUSTOMER_NOT_FOUND")
+        );
+
         return customerMapper.entityToDto(entity);
     }
 
@@ -49,5 +53,9 @@ public class CustomerService {
         customerEntity.getProducts().add(productEntity);
         customerRepository.deleteById(1L);
         customerRepository.save(customerEntity);
+    }
+
+    public int add(int a, int b) {
+        return a + b;
     }
 }
